@@ -1,23 +1,19 @@
-import logo from './logo.svg';
+import React,{ useEffect } from "react" 
 import './App.css';
+import {useSelector, useDispatch} from 'react-redux'
+import {fetchTaco} from "./redux/actions/index"
+import ReactMarkdown from "react-markdown"
 
 function App() {
+    const {taco,loadingTaco} = useSelector(state => state)
+    const dispatch = useDispatch() 
+    useEffect(()=>{
+        dispatch(fetchTaco())
+    }, [])
+    
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+        {loadingTaco ? <p>Loading Taco...</p> : <ReactMarkdown source={ taco.recipe }/>}
     </div>
   );
 }
